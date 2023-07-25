@@ -1,0 +1,209 @@
+
+\usepackage{booktabs}% def toprule, midrule and etc.
+
+\usepackage[cm,empty]{fullpage}
+%\usepackage[layout=a5paper,paperheight=216mm,paperwidth=154mm,layoutvoffset=3mm,layouthoffset=3mm,showframe=true,showcrop=true]{geometry}
+%\usepackage[center,a4,cam]{crop}
+
+
+\usepackage{tikz}
+\usepackage{environ}
+\usepackage{fancyhdr}
+\usepackage{amssymb}
+\usepackage{color,soul}
+\usepackage{hhline}
+\usepackage{xhfill}
+\usepackage{tgadventor}
+
+
+\pagestyle{fancy}
+\fancyhead{}
+
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage{qrcode}
+\usepackage{wrapfig}
+\usepackage{biblatex}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage{titletoc}
+\usepackage{xparse}
+
+
+\DeclareBibliographyDriver{misc}{%
+    \iffieldundef{url}{%
+        \usebibmacro{bibindex}%
+        \usebibmacro{begentry}%
+        \usebibmacro{author/editor+others/translator+others}%
+        \setunit{\labelnamepunct}\newblock
+        \usebibmacro{title}%
+        \newunit
+        \printlist{language}%
+        \newunit\newblock
+        \usebibmacro{byauthor}%
+        \newunit\newblock
+        \usebibmacro{byeditor+others}%
+        \newunit\newblock
+        \printfield{howpublished}%
+        \newunit\newblock
+        \printfield{type}%
+        \newunit
+        \printfield{version}%
+        \newunit
+        \printfield{note}%
+        \newunit\newblock
+        \usebibmacro{organization+location+date}%
+        \newunit\newblock
+        \usebibmacro{doi+eprint+url}%
+        \newunit\newblock
+        \usebibmacro{addendum+pubstate}%
+        \setunit{\bibpagerefpunct}\newblock
+        \usebibmacro{pageref}%
+        \newunit\newblock
+        \iftoggle{bbx:related}
+        {\usebibmacro{related:init}%
+            \usebibmacro{related}}
+        {}%
+        \usebibmacro{finentry}
+    }{%
+    \noindent\begin{tabular}{@{}m{0.75\linewidth} m{0.25\linewidth}}
+         \parbox[t][2.5cm]{\linewidth}{%
+            \usebibmacro{bibindex}%
+            \usebibmacro{begentry}% 
+            \usebibmacro{author/editor+others/translator+others}%
+            \setunit{\labelnamepunct}\newblock
+            \usebibmacro{title}%
+            \newunit
+            \printlist{language}%
+            \newunit\newblock
+            \usebibmacro{byauthor}%
+            \newunit\newblock
+            \usebibmacro{byeditor+others}%
+            \newunit\newblock
+            \printfield{howpublished}%
+            \newunit\newblock
+            \printfield{type}%
+            \newunit
+            \printfield{version}%
+            \newunit
+            \printfield{note}%
+            \newunit\newblock
+            \usebibmacro{organization+location+date}%
+            \newunit\newblock
+            \small{\usebibmacro{doi+eprint+url}}%
+            \newunit\newblock
+            \usebibmacro{addendum+pubstate}%
+            \setunit{\bibpagerefpunct}\newblock
+            \usebibmacro{pageref}%
+            \newunit\newblock
+            \iftoggle{bbx:related}
+            {\usebibmacro{related:init}%
+                \usebibmacro{related}}
+            {}%
+            \usebibmacro{finentry}
+        } &  {\qrcode[height=\linewidth]{\strfield{url}}}\\
+         
+    \end{tabular}
+    \vspace{0.25cm}
+     
+    }
+}
+
+
+
+
+\titleformat*{\section}{\fontfamily{qag}\selectfont\large\centering\bfseries\MakeUppercase}
+\titleformat*{\subsection}{\fontfamily{qag}\selectfont\centering\bfseries\MakeUppercase}
+
+
+
+\titlecontents{section}[2em]
+  {\vspace{0.5em}}
+  {\bfseries\contentslabel{2em}}
+  {\hspace*{-2.3em}\bfseries\MakeUppercase}
+  {}
+  
+\titlecontents{subsection}[2em]
+  {\vspace{0.5em}}
+  {\bfseries\contentslabel{2em}}
+  {\hspace*{-2.3em}\bfseries}
+  {}
+  
+  \titlecontents{subsubsection}[2em]
+  {}
+  {\contentslabel{0em}}
+  {\hspace*{0em}}
+  {\titlerule*[1pc]{.}\contentspage}
+
+
+\usepackage[thumblink=page,linefill=dots,height={40pt},minheight={10pt}, width={30pt},distance={2mm},topthumbmargin={auto},bottomthumbmargin={auto}, eventxtindent={-4pt},oddtxtexdent={-4pt}, evenmarkindent={0pt},oddmarkexdent={0pt},evenprintvoffset={0pt},nophantomsection=false,ignorehoffset=false,ignorevoffset=true,final=true, hidethumbs=false,verbose=true,txtcentered=true]{thumbs}
+
+
+
+
+% creates empty checkboxes to be used as the second
+% argument to \item on checklist
+\newcommand{\checkbox}{\makebox[3ex][r]{\Large{$\square$}}}
+
+% draws a dashed box around to group checklists
+% a task has a title, which is the group title
+\NewEnviron{task}[1]{\par
+\begin{tikzpicture}
+\node[rectangle,minimum width=0.9\linewidth] (m)
+  {\begin{minipage}{0.85\linewidth}
+    \begin{center}\uppercase{#1}\\\vspace{1em}\BODY\end{center}
+   \end{minipage}};
+\draw[dashed](m.south west) rectangle (m.north east);
+\end{tikzpicture}\vspace{1em}
+}
+
+% checklist env sets up a table and format the items.
+% in case a item has steps use the \step{asdf}
+% command.
+\newenvironment{checklist}[1]{%
+
+  \renewcommand{\item}[2]{%
+    ##1\hspace{0.1em}\dotfill\makebox{\small  \MakeUppercase{##2} }\\
+    
+  }
+  \newcommand{\step}[1]{%
+    \hspace*{\labelsep}-\hspace*{\labelsep}{\small##1}\\
+  }
+  \newcommand{\sepbar}[1]{%
+
+    \hspace{0pt}\xrfill[0pt]{3pt}[##1] \hspace{0\labelsep}\\
+    
+  }
+ 
+ 
+
+\noindent\begin{tabular}{@{}m{\linewidth}}
+ 
+     \toprule
+       \multicolumn{1}{c}{\textbf{\uppercase{#1}}}
+       \addcontentsline{toc}{subsubsection}{#1}
+       \\
+     \midrule
+}{\bottomrule\end{tabular}\vspace{5em}}
+  
+
+
+\newenvironment{AppendixList}[0]{%
+
+\DeclareDocumentCommand \item { o m } {%
+\IfNoValueTF{##1}{##2\\}
+{\noindent\begin{tabular}{@{}m{\linewidth-1in} m{1in}}
+\parbox[c]{\hsize}{##2} & {\qrcode[height=1in]{##1}}
+\end{tabular}}
+\vspace{2em}
+}
+
+
+\noindent\begin{tabular}{@{}m{0.95\linewidth}}
+ 
+}{\end{tabular}\vspace{5em}}
+  
